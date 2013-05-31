@@ -13,5 +13,8 @@
 1.9.1.2 - Adjustments to the NuGet package
 1.9.1 - Initial release</releaseNotes>
     <tags>zip, gzip, deflate, dotnetzip, bzip2, lzma, portable, compression</tags>
+    <references>
+      <reference file="Zlib.Portable.dll" />
+    </references>
   </metadata>
 </package>

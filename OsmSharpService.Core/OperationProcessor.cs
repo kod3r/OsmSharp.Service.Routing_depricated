@@ -623,6 +623,10 @@ namespace OsmSharpService.Core
         /// </summary>
         private void PrepareRouter()
         {
+#if DEBUG
+            OsmSharp.Tools.Output.OutputStreamHost.RegisterOutputStream(
+                new OsmSharp.Tools.Output.DebugOutputStream());
+#endif
             // initialize the interpreters.
             _interpreter =
                 new  OsmRoutingInterpreter();

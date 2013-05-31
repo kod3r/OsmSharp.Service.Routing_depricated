@@ -20,5 +20,10 @@
       <dependency id="protobuf-net" version="2.0.0.621" />
       <dependency id="Zlib.Portable" version="1.9.2" />
     </dependencies>
+    <references>
+      <reference file="OsmSharp.Osm.dll" />
+      <reference file="OsmSharp.Routing.dll" />
+      <reference file="OsmSharp.Tools.dll" />
+    </references>
   </metadata>
 </package>
