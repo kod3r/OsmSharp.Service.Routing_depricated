@@ -36,6 +36,9 @@ namespace OsmSharpService.WindowsService
         /// <param name="args"></param>
         protected override void OnStart(string[] args)
         {
+            // initialize the settings.
+            OperationProcessor.Settings["pbf_file"] = ConfigurationManager.AppSettings["pbf_file"];
+
             // initializes the processor(s).
             _processors.Add(OperationProcessor.GetInstance());
 

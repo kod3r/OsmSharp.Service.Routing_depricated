@@ -14,8 +14,11 @@ namespace OsmSharpService.SelfHost
             OsmSharp.Tools.Output.OutputStreamHost.RegisterOutputStream(
                 new ConsoleOutputStream());
 
+            // initialize the settings.
+            OperationProcessor.Settings["pbf_file"] = ConfigurationManager.AppSettings["pbf_file"];
+
             // initializes the processor(s).
-            List<IProcessor> processors = new List<IProcessor>();
+            var processors = new List<IProcessor>();
             processors.Add(OperationProcessor.GetInstance());
 
             // start all the processor(s).

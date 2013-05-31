@@ -631,7 +631,7 @@ namespace OsmSharpService.Core
             _interpreter =
                 new  OsmRoutingInterpreter();
 
-            string file = System.Configuration.ConfigurationManager.AppSettings["pbf_file"];
+            string file = OperationProcessor.Settings["pbf_file"];
 
             var tagsIndex = new OsmTagsIndex();
 
@@ -647,6 +647,20 @@ namespace OsmSharpService.Core
 
             _data = data; // only set the data property here now after pre-processing!
         }
+
+        #endregion
+
+        #region Settings
+
+        /// <summary>
+        /// Holds the settings for the operation processor.
+        /// </summary>
+        private static readonly Dictionary<string, string> _settings = new Dictionary<string, string>(); 
+
+        /// <summary>
+        /// Returns the settings for the operation processor.
+        /// </summary>
+        public static Dictionary<string, string> Settings { get { return _settings; } }
 
         #endregion
     }
