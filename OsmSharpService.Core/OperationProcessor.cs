@@ -13,6 +13,7 @@ using OsmSharp.Routing.Osm.Data.Processing;
 using OsmSharp.Routing.Osm.Interpreter;
 using OsmSharp.Routing.Route;
 using OsmSharp.Routing.TSP.Genetic;
+using OsmSharp.Tools.Collections;
 using OsmSharp.Tools.Math.Geo;
 using OsmSharp.Tools.Math.VRP.Core.Routes;
 using OsmSharpService.Core.Routing;
@@ -633,7 +634,7 @@ namespace OsmSharpService.Core
 
             string file = OperationProcessor.Settings["pbf_file"];
 
-            var tagsIndex = new OsmTagsIndex();
+            var tagsIndex = new OsmTagsIndex(new ObjectTable<OsmTagsIndex.OsmTags>(true));
 
             // do the data processing.
             var data = new DynamicGraphRouterDataSource<SimpleWeighedEdge>(tagsIndex);
