@@ -298,7 +298,7 @@ namespace OsmSharpService.Core
 
             // calculate the TSP.
             var tspSolver = new RouterTSPAEXGenetic(300, 100);
-            IRoute tspRoute = tspSolver.CalculateTSP(weights, routerPoints.Select(x => x.Location).ToArray(), !open);
+            IRoute tspRoute = tspSolver.CalculateTSP(weights, routerPoints.Select(x => x.Location).ToArray(), 0, !open);
             
             // calculate the actual route.
             OsmSharpRoute route = null;
