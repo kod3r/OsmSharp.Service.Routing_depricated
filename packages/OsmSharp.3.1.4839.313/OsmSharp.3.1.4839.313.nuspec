@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>OsmSharp</id>
-    <version>3.1.4839.299</version>
+    <version>3.1.4839.313</version>
     <title>OsmSharp</title>
     <authors>Ben Abelshausen</authors>
     <owners>Ben Abelshausen</owners>
