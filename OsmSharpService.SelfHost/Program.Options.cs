@@ -23,7 +23,6 @@ namespace OsmSharpService.SelfHost
             [Option('f', "file", Required = true, HelpText = "The OSM-file to load.")]
             public string File { get; set; }
 
-
             /// <summary>
             /// The hostname.
             /// </summary>

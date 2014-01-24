@@ -1,5 +1,5 @@
 ﻿using OsmSharp.Routing;
-using ServiceStack.ServiceHost;
+using ServiceStack;
 using OsmSharpService.Core.Routing.Primitives;
 
 namespace OsmSharpService.Core.Routing
@@ -13,7 +13,7 @@ namespace OsmSharpService.Core.Routing
         /// <summary>
         /// The vehicle type.
         /// </summary>
-        public VehicleEnum Vehicle { get; set; }
+        public Vehicle Vehicle { get; set; }
 
         /// <summary>
         /// The hooks to resolve.

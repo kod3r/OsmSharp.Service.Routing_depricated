@@ -1,11 +1,12 @@
-﻿using ServiceStack.ServiceHost;
+﻿
 
+using ServiceStack;
 namespace OsmSharpService.Core.Routing
 {
     /// <summary>
     /// Routing service implementation.
     /// </summary>
-    public class ResolveRestService : IService<ResolveOperation>
+    public class ResolveRestService : Service
     {
         /// <summary>
         /// Executes the request.

@@ -1,4 +1,4 @@
-﻿using OsmSharp.Routing.Route;
+﻿using OsmSharp.Routing;
 
 namespace OsmSharpService.Core.Routing.Primitives
 {
@@ -25,7 +25,7 @@ namespace OsmSharpService.Core.Routing.Primitives
         /// <summary>
         /// The resulting route.
         /// </summary>
-        public OsmSharpRoute Route { get; set; }
+        public Route Route { get; set; }
 
         /// <summary>
         /// Returns all hooks that have not been routed.

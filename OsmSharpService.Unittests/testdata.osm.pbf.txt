@@ -1,0 +1,5 @@
+﻿Test data is a section of belgium generated on 23/01/2014.
+
+Bounds:
+
+$ osmosis --read-pbf belgium-latest.osm.pbf --bounding-box top=51.10 left=3.43 bottom=51.07 right=3.46 --write-pbf testdata.osm.pbf

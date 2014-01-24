@@ -6,8 +6,8 @@ using NUnit.Framework;
 using OsmSharp.Routing;
 using OsmSharpService.Core.Routing;
 using OsmSharpService.Core.Routing.Primitives;
-using OsmSharp.Tools.Math.Geo;
-using ServiceStack.ServiceClient.Web;
+using OsmSharp.Math.Geo;
+using ServiceStack;
 
 namespace OsmSharpService.Unittests
 {
@@ -35,7 +35,7 @@ namespace OsmSharpService.Unittests
                                       new GeoCoordinate(51.0862655639648, 3.44465517997742)
                                   };
 
-            // instantiate the routinghooK
+            // instantiate the routinghook.
             for (int idx = 0; idx < 4; idx++)
             {
                 hooks[idx] = new RoutingHook()
@@ -48,18 +48,17 @@ namespace OsmSharpService.Unittests
             }
 
             // create Json client.
-            var client = new JsonServiceClient("http://localhost:666/");
+            var client = new JsonServiceClient("http://127.0.0.1:666/");
             client.Timeout = new TimeSpan(0, 5, 0);
 
             // set the request.
-            var routingResponse = client.Send<RoutingResponse>(
+            var routingResponse = client.Get(
                         new RoutingOperation()
                         {
-                            Vehicle = VehicleEnum.Car,
+                            Vehicle = Vehicle.Car.UniqueName,
                             Hooks = hooks,
                             Type = RoutingOperationType.TSP
                         });
-
         }
     }
 }

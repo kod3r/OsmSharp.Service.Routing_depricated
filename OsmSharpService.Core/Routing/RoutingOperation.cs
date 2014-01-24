@@ -1,5 +1,5 @@
 ﻿using OsmSharp.Routing;
-using ServiceStack.ServiceHost;
+using ServiceStack;
 using OsmSharpService.Core.Routing.Primitives;
 
 namespace OsmSharpService.Core.Routing
@@ -8,7 +8,7 @@ namespace OsmSharpService.Core.Routing
     /// Routing resource; tells the services what to route.
     /// </summary>
     [Route("/routing", "GET,POST,PUT,OPTIONS")]
-    public class RoutingOperation
+    public class RoutingOperation : IReturn<RoutingResponse>
     {
         /// <summary>
         /// Holds the routing resource type.
@@ -18,7 +18,7 @@ namespace OsmSharpService.Core.Routing
         /// <summary>
         /// The vehicle type.
         /// </summary>
-        public VehicleEnum Vehicle { get; set; }
+        public string Vehicle { get; set; }
 
         /// <summary>
         /// The hooks for the router to route on.

@@ -1,23 +1,23 @@
-﻿using System;
+﻿using OsmSharp.Collections.Tags;
+using OsmSharp.Math.Geo;
+using OsmSharp.Math.VRP.Core.Routes;
+using OsmSharp.Osm.PBF.Streams;
+using OsmSharp.Osm.Streams;
+using OsmSharp.Osm.Streams.Filters;
+using OsmSharp.Osm.Xml.Streams;
+using OsmSharp.Routing;
+using OsmSharp.Routing.Graph;
+using OsmSharp.Routing.Graph.Router.Dykstra;
+using OsmSharp.Routing.Osm.Graphs;
+using OsmSharp.Routing.Osm.Interpreter;
+using OsmSharp.Routing.Osm.Streams.Graphs;
+using OsmSharp.Routing.TSP.Genetic;
+using OsmSharpService.Core.Routing;
+using OsmSharpService.Core.Routing.Primitives;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using OsmSharp.Osm;
-using OsmSharp.Osm.Data.Core.Processor.Progress;
-using OsmSharp.Osm.Data.PBF.Raw.Processor;
-using OsmSharp.Routing;
-using OsmSharp.Routing.Graph;
-using OsmSharp.Routing.Graph.DynamicGraph.SimpleWeighed;
-using OsmSharp.Routing.Graph.Router.Dykstra;
-using OsmSharp.Routing.Osm.Data.Processing;
-using OsmSharp.Routing.Osm.Interpreter;
-using OsmSharp.Routing.Route;
-using OsmSharp.Routing.TSP.Genetic;
-using OsmSharp.Tools.Collections;
-using OsmSharp.Tools.Math.Geo;
-using OsmSharp.Tools.Math.VRP.Core.Routes;
-using OsmSharpService.Core.Routing;
-using OsmSharpService.Core.Routing.Primitives;
 
 namespace OsmSharpService.Core
 {
@@ -29,7 +29,7 @@ namespace OsmSharpService.Core
         /// <summary>
         /// Holds routing data.
         /// </summary>
-        private DynamicGraphRouterDataSource<SimpleWeighedEdge> _data;
+        private DynamicGraphRouterDataSource<LiveEdge> _data;
 
         /// <summary>
         /// Holds the routing interpreter.
@@ -74,9 +74,8 @@ namespace OsmSharpService.Core
                 IEdgeMatcher matcher = new LevenshteinEdgeMatcher();
 
                 // create the router.
-                var router = new Router<SimpleWeighedEdge>(
-                    _data, _interpreter, new DykstraRoutingLive(
-                        _data.TagsIndex));
+                var router = Router.CreateLiveFrom(_data,
+                    new DykstraRoutingLive(), _interpreter);
 
                 // execute the requested operation.
                 switch (operation.Type)
@@ -121,8 +120,11 @@ namespace OsmSharpService.Core
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoToClosest(
-            RoutingOperation operation, Router<SimpleWeighedEdge> router, IEdgeMatcher matcher)
+            RoutingOperation operation, Router router, IEdgeMatcher matcher)
         {
+            // get the vehicle.
+            var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
+
             // create the response.
             var response = new RoutingResponse();
 
@@ -133,10 +135,10 @@ namespace OsmSharpService.Core
             for (int idx = 0; idx < operation.Hooks.Length; idx++)
             {
                 // routing hook tags.
-                IDictionary<string, string> tags = operation.Hooks[idx].Tags.ConvertToDictionary();
+                TagsCollectionBase tags = new TagsCollection(operation.Hooks[idx].Tags.ConvertToDictionary());
 
                 // resolve the point.
-                RouterPoint routerPoint = router.Resolve(operation.Vehicle, new GeoCoordinate(
+                RouterPoint routerPoint = router.Resolve(vehicle, new GeoCoordinate(
                     operation.Hooks[idx].Latitude, operation.Hooks[idx].Longitude), matcher, tags);
 
                 // check the result.
@@ -154,7 +156,7 @@ namespace OsmSharpService.Core
                     if (!hooksPerRouterPoints.TryGetValue(routerPoint, out hooksAtPoint))
                     { // the router point does not exist yet.
                         // check if the router point is routable.
-                        if (router.CheckConnectivity(operation.Vehicle, routerPoint, 200))
+                        if (router.CheckConnectivity(vehicle, routerPoint, 200))
                         {// the point is routable.
                             // create the hooks list at this point.
                             hooksAtPoint = new List<RoutingHook>();
@@ -195,7 +197,7 @@ namespace OsmSharpService.Core
             routerPoints.RemoveAt(0);
 
             // calculate all the weights.
-            OsmSharpRoute route = router.CalculateToClosest(operation.Vehicle, first, routerPoints.ToArray());
+            Route route = router.CalculateToClosest(vehicle, first, routerPoints.ToArray());
 
             if (route != null)
             {
@@ -234,8 +236,11 @@ namespace OsmSharpService.Core
         /// <param name="open">Flag indicating the type of TSP problem, open or not.</param>
         /// <returns></returns>
         private RoutingResponse DoTSP(
-            RoutingOperation operation, Router<SimpleWeighedEdge> router, IEdgeMatcher matcher, bool open)
+            RoutingOperation operation, Router router, IEdgeMatcher matcher, bool open)
         {
+            // get the vehicle.
+            var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
+
             // create the response.
             var response = new RoutingResponse();
 
@@ -246,10 +251,10 @@ namespace OsmSharpService.Core
             for (int idx = 0; idx < operation.Hooks.Length; idx++)
             {
                 // routing hook tags.
-                IDictionary<string, string> tags = operation.Hooks[idx].Tags.ConvertToDictionary();
+                TagsCollectionBase tags = new TagsCollection(operation.Hooks[idx].Tags.ConvertToDictionary());
 
                 // resolve the point.
-                RouterPoint routerPoint = router.Resolve(operation.Vehicle, new GeoCoordinate(
+                RouterPoint routerPoint = router.Resolve(vehicle, new GeoCoordinate(
                     operation.Hooks[idx].Latitude, operation.Hooks[idx].Longitude), matcher, tags);
 
                 // check the result.
@@ -263,7 +268,7 @@ namespace OsmSharpService.Core
                     if (!hooksPerRouterPoints.TryGetValue(routerPoint, out hooksAtPoint))
                     { // the router point does not exist yet.
                         // check if the router point is routable.
-                        if (router.CheckConnectivity(operation.Vehicle, routerPoint, 200))
+                        if (router.CheckConnectivity(vehicle, routerPoint, 200))
                         {// the point is routable.
                             // create the hooks list at this point.
                             hooksAtPoint = new List<RoutingHook>();
@@ -294,19 +299,18 @@ namespace OsmSharpService.Core
             response.UnroutableHooks = unroutableHooks.ToArray();
 
             // calculate all the weights.
-            double[][] weights = router.CalculateManyToManyWeight(operation.Vehicle, routerPoints.ToArray(), routerPoints.ToArray());
+            double[][] weights = router.CalculateManyToManyWeight(vehicle, routerPoints.ToArray(), routerPoints.ToArray());
 
             // calculate the TSP.
             var tspSolver = new RouterTSPAEXGenetic(300, 100);
             IRoute tspRoute = tspSolver.CalculateTSP(weights, routerPoints.Select(x => x.Location).ToArray(), 0, !open);
             
             // calculate the actual route.
-            OsmSharpRoute route = null;
+            Route route = null;
             foreach (Edge edge in tspRoute.Edges())
             {
                 // calculate the actual edge-route.
-                OsmSharpRoute edgeRoute = router.Calculate(operation.Vehicle,
-                                                            routerPoints[edge.From], routerPoints[edge.To]);
+                Route edgeRoute = router.Calculate(vehicle, routerPoints[edge.From], routerPoints[edge.To]);
 
                 // add the routing hook tags.
                 List<RoutingHook> fromHooks = hooksPerRouterPoints[routerPoints[edge.From]];
@@ -343,7 +347,7 @@ namespace OsmSharpService.Core
                 }
                 else
                 {
-                    route = OsmSharpRoute.Concatenate(route, edgeRoute);
+                    route = Route.Concatenate(route, edgeRoute);
                 }
             }
 
@@ -363,31 +367,36 @@ namespace OsmSharpService.Core
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoRegular(
-            RoutingOperation operation, Router<SimpleWeighedEdge> router, IEdgeMatcher matcher)
+            RoutingOperation operation, Router router, IEdgeMatcher matcher)
         {
+            // get the vehicle.
+            var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
+
             // create the response.
             var response = new RoutingResponse();
 
-            OsmSharpRoute route = null;
+            Route route = null;
             RouterPoint previous = null;
             var unroutableHooks = new List<RoutingHook>(); // keep a list of unroutable hooks.
             for (int idx = 0; idx < operation.Hooks.Length - 1; idx++)
             {
+                // routing hook tags.
+                TagsCollectionBase tags = new TagsCollection(operation.Hooks[idx].Tags.ConvertToDictionary());
+
                 // resolve the next point.
-                RouterPoint next = router.Resolve(operation.Vehicle,
+                RouterPoint next = router.Resolve(vehicle,
                                                   new GeoCoordinate(operation.Hooks[idx].Latitude,
                                                                     operation.Hooks[idx].Longitude), matcher,
-                                                  operation.Hooks[idx].Tags.ConvertToDictionary());
+                                                  tags);
 
                 // check the routability.
                 if (next != null &&
-                    router.CheckConnectivity(operation.Vehicle, next, 200))
+                    router.CheckConnectivity(vehicle, next, 200))
                 { // the next point is routable.
                     if (previous != null)
                     {
                         // calculate the next part of the route.
-                        OsmSharpRoute routePart = router.Calculate(operation.Vehicle,
-                                                                 previous, next);
+                        Route routePart = router.Calculate(vehicle, previous, next);
                         // concatenate the route part.
                         if (route == null)
                         {
@@ -395,7 +404,7 @@ namespace OsmSharpService.Core
                         }
                         else
                         {
-                            route = OsmSharpRoute.Concatenate(route, routePart);
+                            route = Route.Concatenate(route, routePart);
                         }
                     }
 
@@ -429,8 +438,11 @@ namespace OsmSharpService.Core
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoManyToMany(
-            RoutingOperation operation, Router<SimpleWeighedEdge> router, IEdgeMatcher matcher)
+            RoutingOperation operation, Router router, IEdgeMatcher matcher)
         {
+            // get the vehicle.
+            var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
+
             // create the response.
             var response = new RoutingResponse();
 
@@ -440,10 +452,10 @@ namespace OsmSharpService.Core
             for (int idx = 0; idx < operation.Hooks.Length; idx++)
             {
                 // routing hook tags.
-                IDictionary<string, string> tags = operation.Hooks[idx].Tags.ConvertToDictionary();
+                TagsCollectionBase tags = new TagsCollection(operation.Hooks[idx].Tags.ConvertToDictionary());
 
                 // resolve the point.
-                RouterPoint routerPoint = router.Resolve(operation.Vehicle, new GeoCoordinate(
+                RouterPoint routerPoint = router.Resolve(vehicle, new GeoCoordinate(
                     operation.Hooks[idx].Latitude, operation.Hooks[idx].Longitude), matcher, tags);
 
                 // check the result.
@@ -456,7 +468,7 @@ namespace OsmSharpService.Core
                 {
                     // a point to hook on was found!
                     // check if the router point is routable.
-                    if (router.CheckConnectivity(operation.Vehicle, routerPoint, 200))
+                    if (router.CheckConnectivity(vehicle, routerPoint, 200))
                     {
                         // the point is routable.
 
@@ -478,7 +490,7 @@ namespace OsmSharpService.Core
 
 
             // calculate and fill the response.
-            response.Weights = router.CalculateManyToManyWeight(operation.Vehicle, routerPoints.ToArray(),
+            response.Weights = router.CalculateManyToManyWeight(vehicle, routerPoints.ToArray(),
                 routerPoints.ToArray());
 
             // report succes!
@@ -517,17 +529,16 @@ namespace OsmSharpService.Core
                 // create the default edge matcher.
                 IEdgeMatcher matcher = new LevenshteinEdgeMatcher();
 
-                // resolve the points and do the routing.
-                var router = new Router<SimpleWeighedEdge>(
-                    _data, _interpreter, new DykstraRoutingLive(
-                        _data.TagsIndex));
+                // create the router.
+                var router = Router.CreateLiveFrom(_data,
+                    new DykstraRoutingLive(), _interpreter);
 
                 // create the coordinates list.
                 response.ResolvedHooks = new RoutingHookResolved[operation.Hooks.Length];
                 for (int idx = 0; idx < operation.Hooks.Length; idx++)
                 {
                     // routing hook tags.
-                    IDictionary<string, string> tags = operation.Hooks[idx].Tags.ConvertToDictionary();
+                    TagsCollectionBase tags = new TagsCollection(operation.Hooks[idx].Tags.ConvertToDictionary());
 
                     // resolve the point.
                     RouterPoint resolved = router.Resolve(operation.Vehicle, new GeoCoordinate(
@@ -624,26 +635,40 @@ namespace OsmSharpService.Core
         /// </summary>
         private void PrepareRouter()
         {
-#if DEBUG
-            OsmSharp.Tools.Output.OutputStreamHost.RegisterOutputStream(
-                new OsmSharp.Tools.Output.DebugOutputStream());
-#endif
             // initialize the interpreters.
             _interpreter =
                 new  OsmRoutingInterpreter();
 
-            string file = OperationProcessor.Settings["pbf_file"];
+            // check if there is already a stream.
+            OsmStreamSource source = null;
+            if(OperationProcessor.Settings.ContainsKey("source_stream"))
+            { // the source stream already exists.
+                source = OperationProcessor.Settings["source_stream"] as OsmStreamSource;
+            }
+            else if(OperationProcessor.Settings.ContainsKey("pbf_file"))
+            { // a pbf file is the source.
+                source = new PBFOsmStreamSource(
+                    (new FileInfo(OperationProcessor.Settings["pbf_file"] as string)).OpenRead());
+            }
+            else if(OperationProcessor.Settings.ContainsKey("xml_file"))
+            { // an xml file is the source.
+                source = new XmlOsmStreamSource(
+                    (new FileInfo(OperationProcessor.Settings["xml_file"] as string)).OpenRead());
+            }
+            else
+            { // no valid configuration was found.
+                throw new InvalidOperationException("No valid source of OSM-data found in the OperationProcessor.Settings file.");
+            }
 
-            var tagsIndex = new OsmTagsIndex(new ObjectTable<OsmTagsIndex.OsmTags>(true));
+            // creates a tagged index.
+            var tagsIndex = new TagsTableCollectionIndex(); 
 
-            // do the data processing.
-            var data = new DynamicGraphRouterDataSource<SimpleWeighedEdge>(tagsIndex);
-            var targetData = new SimpleWeighedDataGraphProcessingTarget(
-                data, _interpreter, data.TagsIndex, VehicleEnum.Car);
-            var dataProcessorSource = new PBFDataProcessorSource((new FileInfo(
-                file)).OpenRead());
-            var progressSource = new ProgressDataProcessorSource(dataProcessorSource);
-            targetData.RegisterSource(progressSource);
+            // read from the OSM-stream.
+            var data = new DynamicGraphRouterDataSource<LiveEdge>(tagsIndex);
+            var targetData = new LiveGraphOsmStreamTarget(data, _interpreter, tagsIndex);
+            var sorter = new OsmStreamFilterSort();
+            sorter.RegisterSource(source);
+            targetData.RegisterSource(sorter);
             targetData.Pull();
 
             _data = data; // only set the data property here now after pre-processing!
@@ -656,12 +681,12 @@ namespace OsmSharpService.Core
         /// <summary>
         /// Holds the settings for the operation processor.
         /// </summary>
-        private static readonly Dictionary<string, string> _settings = new Dictionary<string, string>(); 
+        private static readonly Dictionary<string, object> _settings = new Dictionary<string, object>(); 
 
         /// <summary>
         /// Returns the settings for the operation processor.
         /// </summary>
-        public static Dictionary<string, string> Settings { get { return _settings; } }
+        public static Dictionary<string, object> Settings { get { return _settings; } }
 
         #endregion
     }

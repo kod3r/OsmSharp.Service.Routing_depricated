@@ -1,5 +1,5 @@
-﻿using ServiceStack.WebHost.Endpoints;
-using Funq;
+﻿using Funq;
+using ServiceStack;
 
 namespace OsmSharpService.Core
 {
@@ -23,13 +23,13 @@ namespace OsmSharpService.Core
         /// <param name="container"></param>
         public override void Configure(Container container)
         {
-            SetConfig(new EndpointHostConfig
+            SetConfig(new HostConfig
             {
                 GlobalResponseHeaders =
-	                {
-	                    { "Access-Control-Allow-Origin", "*" },
-	                    { "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS" },
-	                },
+                    {
+                        { "Access-Control-Allow-Origin", "*" },
+                        { "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS" },
+                    },
             });
         }
     }
