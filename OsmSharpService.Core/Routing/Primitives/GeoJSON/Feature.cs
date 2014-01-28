@@ -41,7 +41,7 @@ namespace OsmSharpService.Core.Routing.Primitives.GeoJSON
             feature.properties.TotalDistance = route.TotalDistance;
             feature.properties.TotalTime = route.TotalTime;
 
-            feature.geometry.coordinates = route.GetPoints().Select(x => new double[] { x.Latitude, x.Longitude }).ToArray();
+            feature.geometry.coordinates = route.GetPoints().Select(x => new double[] { x.Longitude, x.Latitude }).ToArray();
             feature.geometry.type = GeometryType.LineString;
 
             return feature;

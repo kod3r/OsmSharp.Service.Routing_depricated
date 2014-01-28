@@ -110,16 +110,19 @@ namespace OsmSharpService.Core
                 }
 
                 // convert to the proper response.
-                switch (operation.ReturnType)
+                if (response.Route != null)
                 {
-                    case RouteReturnType.Array:
-                        response.RouteArray = response.Route.GetPoints().Select(x => new double[] { x.Latitude, x.Longitude }).ToArray();
-                        response.Route = null;
-                        break;
-                    case RouteReturnType.LineString:
-                        response.RouteLineString = Feature.FromRoute(response.Route);
-                        response.Route = null;
-                        break;
+                    switch (operation.ReturnType)
+                    {
+                        case RouteReturnType.Array:
+                            response.RouteArray = response.Route.GetPoints().Select(x => new double[] { x.Latitude, x.Longitude }).ToArray();
+                            response.Route = null;
+                            break;
+                        case RouteReturnType.LineString:
+                            response.RouteLineString = Feature.FromRoute(response.Route);
+                            response.Route = null;
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
