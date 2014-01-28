@@ -16,6 +16,11 @@ namespace OsmSharpService.Core.Routing
         public RoutingOperationType Type { get; set; }
 
         /// <summary>
+        /// Holds the routing return type.
+        /// </summary>
+        public RouteReturnType ReturnType { get; set; }
+
+        /// <summary>
         /// The vehicle type.
         /// </summary>
         public string Vehicle { get; set; }
@@ -51,5 +56,24 @@ namespace OsmSharpService.Core.Routing
         /// Returns a route between the first given point to the closest point in the rest of the points given.
         /// </summary>
         ToClosest
+    }
+
+    /// <summary>
+    /// Represents the type of return requested.
+    /// </summary>
+    public enum RouteReturnType
+    {
+        /// <summary>
+        /// Returns an entire serialized route.
+        /// </summary>
+        Route,
+        /// <summary>
+        /// Returns an array for coordinates.
+        /// </summary>
+        Array,
+        /// <summary>
+        /// Returns a linestring geometry.
+        /// </summary>
+        LineString
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OsmSharp.Routing;
+using OsmSharpService.Core.Routing.Primitives.GeoJSON;
 
 namespace OsmSharpService.Core.Routing.Primitives
 {
@@ -26,6 +27,16 @@ namespace OsmSharpService.Core.Routing.Primitives
         /// The resulting route.
         /// </summary>
         public Route Route { get; set; }
+
+        /// <summary>
+        /// The resulting route as an array for coordinates.
+        /// </summary>
+        public double[][] RouteArray { get; set; }
+
+        /// <summary>
+        /// The resulting route as a GeoJSON line string.
+        /// </summary>
+        public Feature RouteLineString { get; set; }
 
         /// <summary>
         /// Returns all hooks that have not been routed.

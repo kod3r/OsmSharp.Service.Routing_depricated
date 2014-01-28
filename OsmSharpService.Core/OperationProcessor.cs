@@ -14,6 +14,7 @@ using OsmSharp.Routing.Osm.Streams.Graphs;
 using OsmSharp.Routing.TSP.Genetic;
 using OsmSharpService.Core.Routing;
 using OsmSharpService.Core.Routing.Primitives;
+using OsmSharpService.Core.Routing.Primitives.GeoJSON;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,6 +36,14 @@ namespace OsmSharpService.Core
         /// Holds the routing interpreter.
         /// </summary>
         private OsmRoutingInterpreter _interpreter;
+
+        /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static OperationProcessor()
+        {
+            Vehicle.RegisterVehicles();
+        }
 
         /// <summary>
         /// Processes a routing operation.
@@ -98,6 +107,19 @@ namespace OsmSharpService.Core
                     default:
                         throw new Exception(string.Format("Invalid operation type:{0}", 
                             operation.Type));
+                }
+
+                // convert to the proper response.
+                switch (operation.ReturnType)
+                {
+                    case RouteReturnType.Array:
+                        response.RouteArray = response.Route.GetPoints().Select(x => new double[] { x.Latitude, x.Longitude }).ToArray();
+                        response.Route = null;
+                        break;
+                    case RouteReturnType.LineString:
+                        response.RouteLineString = Feature.FromRoute(response.Route);
+                        response.Route = null;
+                        break;
                 }
             }
             catch (Exception ex)
@@ -351,6 +373,7 @@ namespace OsmSharpService.Core
                 }
             }
 
+            // assign the response.
             response.Route = route;
 
             // set the response as successfull.
@@ -378,7 +401,7 @@ namespace OsmSharpService.Core
             Route route = null;
             RouterPoint previous = null;
             var unroutableHooks = new List<RoutingHook>(); // keep a list of unroutable hooks.
-            for (int idx = 0; idx < operation.Hooks.Length - 1; idx++)
+            for (int idx = 0; idx < operation.Hooks.Length; idx++)
             {
                 // routing hook tags.
                 TagsCollectionBase tags = new TagsCollection(operation.Hooks[idx].Tags.ConvertToDictionary());
@@ -391,7 +414,7 @@ namespace OsmSharpService.Core
 
                 // check the routability.
                 if (next != null &&
-                    router.CheckConnectivity(vehicle, next, 200))
+                    router.CheckConnectivity(vehicle, next, 100))
                 { // the next point is routable.
                     if (previous != null)
                     {
