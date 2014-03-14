@@ -100,9 +100,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.UI.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.WinForms.UI, Version=4.0.2.9999, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.WinForms.UI.dll</HintPath>
+    <Reference Include="OsmSharp.WinForms.UI">
+      <HintPath>..\packages\OsmSharp.4.0.2.581\lib\net40\OsmSharp.WinForms.UI.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

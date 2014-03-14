@@ -109,29 +109,17 @@
     <Compile Include="Routing\ResolveRestService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OsmSharp, Version=4.0.2.581, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.dll</HintPath>
+    <Reference Include="OsmSharp">
+      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Osm, Version=4.0.2.581, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.Osm.dll</HintPath>
+    <Reference Include="OsmSharp.Osm">
+      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.Osm.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Routing, Version=4.0.2.581, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.Routing.dll</HintPath>
+    <Reference Include="OsmSharp.Routing">
+      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.Routing.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.UI, Version=4.0.2.581, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="OsmSharp.WinForms.UI, Version=4.0.2.581, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\master_clone\Output\Debug\Any CPU\OsmSharp.WinForms.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    <Reference Include="OsmSharp.UI">
+      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.UI.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\packages\ServiceStack.4.0.8\lib\net40\ServiceStack.dll</HintPath>
@@ -151,9 +139,6 @@
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
-    <Reference Include="Zlib.Portable, Version=1.9.1.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zlib.Portable.1.9.2\lib\portable-net4+sl4+wp71+win8\Zlib.Portable.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
