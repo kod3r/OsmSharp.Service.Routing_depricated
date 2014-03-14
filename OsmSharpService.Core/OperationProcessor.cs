@@ -698,6 +698,8 @@ namespace OsmSharpService.Core
             targetData.Pull();
 
             _data = data; // only set the data property here now after pre-processing!
+
+            OsmSharp.Logging.Log.TraceEvent("OperationProcessor", OsmSharp.Logging.TraceEventType.Information, "Operation processor ready...");
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using ServiceStack;
+using System;
 
 namespace OsmSharpService.Core.Routing
 {
@@ -25,7 +26,7 @@ namespace OsmSharpService.Core.Routing
         [EnableCors]
         public object Get(RoutingOperation request)
         {
-            return OperationProcessor.GetInstance().ProcessRoutingOperation(request);
+            return this.ProcessRoutingOperation(request);
         }
 
         /// <summary>
@@ -36,7 +37,25 @@ namespace OsmSharpService.Core.Routing
         [EnableCors]
         public object Post(RoutingOperation request)
         {
-            return OperationProcessor.GetInstance().ProcessRoutingOperation(request);
+            return this.ProcessRoutingOperation(request);
+        }
+
+        /// <summary>
+        /// Process the request.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private object ProcessRoutingOperation(RoutingOperation request)
+        {
+            long beforeTicks = DateTime.Now.Ticks;
+            object result = OperationProcessor.GetInstance().ProcessRoutingOperation(request);
+            long afterTicks = DateTime.Now.Ticks;
+
+            OsmSharp.Logging.Log.TraceEvent("RoutingRestService", OsmSharp.Logging.TraceEventType.Information,
+                string.Format("Routing request finished after {0}ms",
+                    new TimeSpan(afterTicks - beforeTicks).TotalMilliseconds));
+
+            return result;
         }
     }
 }
