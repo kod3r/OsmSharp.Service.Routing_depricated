@@ -109,17 +109,21 @@
     <Compile Include="Routing\ResolveRestService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OsmSharp">
-      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.dll</HintPath>
+    <Reference Include="OsmSharp, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Osm">
-      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.Osm.dll</HintPath>
+    <Reference Include="OsmSharp.Osm, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.Osm.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Routing">
-      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.Routing.dll</HintPath>
+    <Reference Include="OsmSharp.Routing, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.Routing.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.UI">
-      <HintPath>..\packages\OsmSharp.4.0.3.610\lib\net40\OsmSharp.UI.dll</HintPath>
+    <Reference Include="OsmSharp.UI, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.UI.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\packages\ServiceStack.4.0.8\lib\net40\ServiceStack.dll</HintPath>
