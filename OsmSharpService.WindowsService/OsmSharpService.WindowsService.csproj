@@ -88,29 +88,40 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OsmSharp, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="OsmSharp, Version=4.0.4.632, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.dll</HintPath>
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Osm, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.Osm.dll</HintPath>
+    <Reference Include="OsmSharp.Data.Oracle">
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Data.Oracle.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Routing, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.Routing.dll</HintPath>
+    <Reference Include="OsmSharp.Data.PostgreSQL">
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Data.PostgreSQL.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.UI, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.UI.dll</HintPath>
+    <Reference Include="OsmSharp.Data.Redis">
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Data.Redis.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.WinForms.UI, Version=4.0.3.619, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.0.3.619\lib\net40\OsmSharp.WinForms.UI.dll</HintPath>
+    <Reference Include="OsmSharp.Data.SQLite">
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+    <Reference Include="OsmSharp.Data.SQLServer">
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Data.SQLServer.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.Osm, Version=4.0.4.632, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Osm.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.Routing, Version=4.0.4.632, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.UI, Version=4.0.4.632, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.WinForms.UI, Version=4.0.4.632, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OsmSharp.4.0.4.632\lib\net40\OsmSharp.WinForms.UI.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack, Version=4.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -137,9 +148,6 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="Zlib.Portable, Version=1.9.1.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zlib.Portable.1.9.2\lib\portable-net4+sl4+wp71+win8\Zlib.Portable.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Installer.cs">

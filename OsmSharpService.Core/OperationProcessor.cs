@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OsmSharp.Collections.Tags.Index;
 
 namespace OsmSharpService.Core
 {
