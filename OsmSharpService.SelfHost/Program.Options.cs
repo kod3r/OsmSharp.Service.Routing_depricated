@@ -43,6 +43,18 @@ namespace OsmSharpService.SelfHost
             [Option('h', "host", HelpText = "The hostname to host the service.")]
             public string Hostname { get; set; }
 
+            /// <summary>
+            /// The filename.
+            /// </summary>
+            [Option("type", HelpText = "The type routing to use.")]
+            public string Type { get; set; }
+
+            /// <summary>
+            /// The hostname.
+            /// </summary>
+            [Option("format", HelpText = "The format of the serialized file.")]
+            public string Format { get; set; }
+
             //
             // Marking a property of type IParserState with ParserStateAttribute allows you to
             // receive an instance of ParserState (that contains a IList<ParsingError>).

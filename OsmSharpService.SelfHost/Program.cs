@@ -38,10 +38,28 @@ namespace OsmSharpService.SelfHost
             // check for command line options.
             var options = new Options();
             var parser = new CommandLine.Parser(with => with.HelpWriter = Console.Error);
-            if (parser.ParseArgumentsStrict(args, options, () => Environment.Exit(-2)))
+            if (parser.ParseArgumentsStrict(args, options, () =>
+                {
+                    Console.ReadLine();
+                    Environment.Exit(-2);
+                }))
             {
-                // parsing was successfull.
-                OperationProcessor.Settings["pbf_file"] = options.File;
+                if (options.Type != null && options.Type.Length > 0)
+                { // check format.
+                    if(options.Format != null && options.Type != null)
+                    { // the format is set.
+                        OperationProcessor.Settings["graph." + options.Type + "." + options.Format] = 
+                            options.File;
+                    }
+                    else
+                    { // oeps, not format but a type?
+                        throw new ArgumentOutOfRangeException("A type was given but not a format.");
+                    }
+                }
+                else
+                { // parsing was successfull.
+                    OperationProcessor.Settings["pbf_file"] = options.File;
+                }
             }
 
             // start application with parsed settings.
