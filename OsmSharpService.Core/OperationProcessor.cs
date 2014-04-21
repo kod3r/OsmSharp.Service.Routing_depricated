@@ -49,15 +49,17 @@ namespace OsmSharpService.Core
     public class OperationProcessor : IProcessor
     {
         /// <summary>
-        /// Defines the create router delegate.
+        /// Holds the router factory.
         /// </summary>
-        /// <returns></returns>
-        private delegate Router CreateRouterDelegate();
+        private RouterFactoryBase _routerFactory;
 
         /// <summary>
-        /// Holds the create router delegate.
+        /// Creates a new operation processor.
         /// </summary>
-        private CreateRouterDelegate CreateRouter;
+        public OperationProcessor(RouterFactoryBase routerFactory)
+        {
+            _routerFactory = routerFactory;
+        }
 
         /// <summary>
         /// Static constructor.
@@ -105,7 +107,7 @@ namespace OsmSharpService.Core
                 IEdgeMatcher matcher = new LevenshteinEdgeMatcher();
 
                 // create the router.
-                var router = this.CreateRouter();
+                var router = _routerFactory.CreateRouter();
 
                 // execute the requested operation.
                 switch (operation.Type)
@@ -577,7 +579,7 @@ namespace OsmSharpService.Core
                 IEdgeMatcher matcher = new LevenshteinEdgeMatcher();
 
                 // create the router.
-                var router = this.CreateRouter();
+                var router = _routerFactory.CreateRouter();
 
                 // create the coordinates list.
                 response.ResolvedHooks = new RoutingHookResolved[operation.Hooks.Length];
@@ -637,7 +639,11 @@ namespace OsmSharpService.Core
         {
             if (_instance == null)
             { // create the instance.
-                _instance = new OperationProcessor();
+                // load router factory or choose default.
+                RouterFactoryBase routerFactory = new RouterFactory();
+
+
+                _instance = new OperationProcessor(routerFactory);
             }
             return _instance;
         }
@@ -663,7 +669,8 @@ namespace OsmSharpService.Core
         /// <returns></returns>
         public bool IsReady()
         {
-            return this.CreateRouter != null;
+            return _routerFactory != null &&
+                _routerFactory.IsReady;
         }
 
         /// <summary>
@@ -671,7 +678,7 @@ namespace OsmSharpService.Core
         /// </summary>
         public void Stop()
         {
-            this.CreateRouter = null;
+            _routerFactory = null;
         }
 
         #region Preparation
@@ -681,86 +688,12 @@ namespace OsmSharpService.Core
         /// </summary>
         private void PrepareRouter()
         {
-            // initialize the interpreters.
-            var interpreter = new  OsmRoutingInterpreter();
-
-            if (OperationProcessor.Settings.ContainsKey("graph.simple.flat"))
-            { // use the live edge graph flat-file to create the router.
-                TagsCollectionBase metaTags;
-                var serializer = new OsmSharp.Routing.Osm.Graphs.Serialization.LiveEdgeFlatfileSerializer();
-                var data = serializer.Deserialize(
-                    new FileInfo(OperationProcessor.Settings["graph.simple.flat"].ToString()).OpenRead(), out metaTags, false);
-
-                this.CreateRouter = new CreateRouterDelegate(() =>
-                {
-                    return Router.CreateLiveFrom(data,
-                        new DykstraRoutingLive(), interpreter);
-                });
-            }
-            else if (OperationProcessor.Settings.ContainsKey("graph.contracted.flat"))
-            { // use the contracted graph flat-file to create the router.
-                TagsCollectionBase metaTags;
-                var serializer = new OsmSharp.Routing.CH.Serialization.CHEdgeFlatfileSerializer();
-                var data = serializer.Deserialize(
-                    new FileInfo(OperationProcessor.Settings["graph.contracted.flat"].ToString()).OpenRead(), out metaTags, false);
-
-                this.CreateRouter = new CreateRouterDelegate(() =>
-                {
-                    return Router.CreateCHFrom(data, new CHRouter(), interpreter);
-                });
-            }
-            else if (OperationProcessor.Settings.ContainsKey("graph.contracted.mobile"))
-            { // use the contracted indexed flat-file to create the datasource.
-                TagsCollectionBase metaTags;
-                var serializer = new OsmSharp.Routing.CH.Serialization.Sorted.CHEdgeDataDataSourceSerializer(false);
-                var data = serializer.Deserialize(
-                    new FileInfo(OperationProcessor.Settings["graph.contracted.mobile"].ToString()).OpenRead(), out metaTags, false);
-
-                this.CreateRouter = new CreateRouterDelegate(() =>
-                {
-                    return Router.CreateCHFrom(data, new CHRouter(), interpreter);
-                });
-            }
-            else
-            { // check if there is already a stream.
-                OsmStreamSource source = null;
-                if (OperationProcessor.Settings.ContainsKey("source_stream"))
-                { // the source stream already exists.
-                    source = OperationProcessor.Settings["source_stream"] as OsmStreamSource;
-                }
-                else if (OperationProcessor.Settings.ContainsKey("pbf_file"))
-                { // a pbf file is the source.
-                    source = new PBFOsmStreamSource(
-                        (new FileInfo(OperationProcessor.Settings["pbf_file"] as string)).OpenRead());
-                }
-                else if (OperationProcessor.Settings.ContainsKey("xml_file"))
-                { // an xml file is the source.
-                    source = new XmlOsmStreamSource(
-                        (new FileInfo(OperationProcessor.Settings["xml_file"] as string)).OpenRead());
-                }
-                else
-                { // no valid configuration was found.
-                    throw new InvalidOperationException("No valid source of OSM-data found in the OperationProcessor.Settings file.");
-                }
-
-                // creates a tagged index.
-                var tagsIndex = new TagsTableCollectionIndex();
-
-                // read from the OSM-stream.
-                var data = new DynamicGraphRouterDataSource<LiveEdge>(tagsIndex);
-                var targetData = new LiveGraphOsmStreamTarget(data, interpreter, tagsIndex);
-                var sorter = new OsmStreamFilterSort();
-                sorter.RegisterSource(source);
-                targetData.RegisterSource(sorter);
-                targetData.Pull();
-
-                this.CreateRouter = new CreateRouterDelegate(() =>
-                {
-                    return Router.CreateLiveFrom(data, new DykstraRoutingLive(), interpreter);
-                });
-            }
-
-            OsmSharp.Logging.Log.TraceEvent("OperationProcessor", TraceEventType.Information, "Operation processor ready...");
+            // initializes the router factory.
+            _routerFactory.Initialize();
+ 
+            // report initialization finished.
+            OsmSharp.Logging.Log.TraceEvent("OperationProcessor", TraceEventType.Information,
+                "Operation processor ready...");
         }
 
         #endregion
@@ -775,7 +708,13 @@ namespace OsmSharpService.Core
         /// <summary>
         /// Returns the settings for the operation processor.
         /// </summary>
-        public static Dictionary<string, object> Settings { get { return _settings; } }
+        public static Dictionary<string, object> Settings
+        {
+            get
+            {
+                return _settings;
+            }
+        }
 
         #endregion
     }
