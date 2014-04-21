@@ -1,0 +1,4 @@
+- Added GeoJSON option.
+- Added more status messages.
+- Added option to load routing graph from flatfile.
+- Decoupled routing logic from service implementation.
