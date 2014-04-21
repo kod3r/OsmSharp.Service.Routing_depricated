@@ -16,30 +16,20 @@
 // You should have received a copy of the GNU General Public License
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using OsmSharp.Collections.Tags;
-using OsmSharp.Collections.Tags.Index;
+using OsmSharp.Logging;
 using OsmSharp.Math.Geo;
 using OsmSharp.Math.VRP.Core.Routes;
-using OsmSharp.Osm.PBF.Streams;
-using OsmSharp.Osm.Streams;
-using OsmSharp.Osm.Streams.Filters;
-using OsmSharp.Osm.Xml.Streams;
 using OsmSharp.Routing;
-using OsmSharp.Routing.Graph;
-using OsmSharp.Routing.Graph.Router.Dykstra;
-using OsmSharp.Routing.Osm.Graphs;
-using OsmSharp.Routing.Osm.Interpreter;
-using OsmSharp.Routing.Osm.Streams.Graphs;
 using OsmSharp.Routing.TSP.Genetic;
 using OsmSharpService.Core.Routing;
 using OsmSharpService.Core.Routing.Primitives;
 using OsmSharpService.Core.Routing.Primitives.GeoJSON;
-using OsmSharp.Logging;
-using OsmSharp.Routing.CH;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
 
 namespace OsmSharpService.Core
 {
@@ -640,9 +630,21 @@ namespace OsmSharpService.Core
             if (_instance == null)
             { // create the instance.
                 // load router factory or choose default.
-                RouterFactoryBase routerFactory = new RouterFactory();
-
-
+                var routerAssemblyName = ConfigurationManager.AppSettings["routerfactory.assembly"];
+                var routerAssembly = Assembly.LoadFrom(routerAssemblyName);
+                if(routerAssembly == null)
+                { // router assembly not found.
+                    throw new Exception(string.Format("Could not create router factory: Assembly {0} not found.",
+                        routerAssemblyName));
+                }
+                var routerFactory = (from t in routerAssembly.GetTypes()
+                                     where t.IsSubclassOf(typeof(RouterFactoryBase))
+                                     select (RouterFactoryBase)Activator.CreateInstance(t)).First();
+                if (routerFactory == null)
+                { // router factory not found.
+                    throw new Exception(string.Format("Could not create router factory: Router implementation not found in Assembly {0}.",
+                        routerAssemblyName));
+                }
                 _instance = new OperationProcessor(routerFactory);
             }
             return _instance;
