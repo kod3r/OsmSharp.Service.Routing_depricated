@@ -14,6 +14,9 @@
         <summary>Library to create plugins for OsmSharp routing service allowing custom routing implementation.</summary>
         <copyright>Ben Abelshausen</copyright>
         <tags>osm, openstreetmap, routing, rendering, mapcss</tags>
+        <dependencies>
+          <dependency id="OsmSharp" version="4.0.5.667" />
+        </dependencies>
     </metadata>
     <files>
         <file src="Output\OsmSharp.Service.Routing.dll" target="lib\net45\OsmSharp.Service.Routing.dll" />
