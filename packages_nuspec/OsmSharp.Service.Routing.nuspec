@@ -19,7 +19,9 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="Output\OsmSharp.Service.Routing.dll" target="lib\net45\OsmSharp.Service.Routing.dll" />
-        <file src="Output\OsmSharp.Service.Routing.Plugin.Default.dll" target="lib\net45\OsmSharp.Service.Routing.Plugin.Default.dll" />
+      <file src="Output\OsmSharp.Service.Routing.Core.dll" target="lib\portable-net40+sl4+win8+wp7\net45\OsmSharp.Service.Routing.Core.dll" />
+      <file src="Output\OsmSharp.Service.Routing.Core.dll" target="lib\net45\OsmSharp.Service.Routing.Core.dll" />
+      <file src="Output\OsmSharp.Service.Routing.dll" target="lib\net45\OsmSharp.Service.Routing.dll" />
+      <file src="Output\OsmSharp.Service.Routing.Plugin.Default.dll" target="lib\net45\OsmSharp.Service.Routing.Plugin.Default.dll" />
     </files>
 </package>
