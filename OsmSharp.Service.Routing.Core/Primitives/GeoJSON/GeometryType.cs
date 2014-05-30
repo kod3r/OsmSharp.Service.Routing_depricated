@@ -16,20 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace OsmSharp.Service.Routing
+namespace OsmSharp.Service.Routing.Core.Primitives.GeoJSON
 {
     /// <summary>
-    /// An enumeration representing status.
+    /// Represents a GeoJSON geometry type.
     /// </summary>
-    public enum OsmSharpServiceResponseStatusEnum
+    public enum GeometryType
     {
         /// <summary>
-        /// The request failed.
+        /// LineString.
         /// </summary>
-        Failed,
-        /// <summary>
-        /// The request was a succes!
-        /// </summary>
-        Success
+        LineString
     }
 }

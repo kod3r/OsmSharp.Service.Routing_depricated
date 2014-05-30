@@ -22,9 +22,10 @@ using OsmSharp.Math.Geo;
 using OsmSharp.Math.VRP.Core.Routes;
 using OsmSharp.Routing;
 using OsmSharp.Routing.TSP.Genetic;
+using OsmSharp.Service.Routing.Core;
+using OsmSharp.Service.Routing.Core.Primitives;
+using OsmSharp.Service.Routing.Core.Primitives.GeoJSON;
 using OsmSharp.Service.Routing.Routing;
-using OsmSharp.Service.Routing.Routing.Primitives;
-using OsmSharp.Service.Routing.Routing.Primitives.GeoJSON;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -64,7 +65,7 @@ namespace OsmSharp.Service.Routing
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public object ProcessRoutingOperation(RoutingOperation operation)
+        public object ProcessRoutingOperation(OsmSharp.Service.Routing.Routing.RoutingOperation operation)
         {
             // create the response object.
             RoutingResponse response;
@@ -73,7 +74,7 @@ namespace OsmSharp.Service.Routing
             { // return that the service is not ready.
                 response = new RoutingResponse
                                {
-                                   Status = OsmSharpServiceResponseStatusEnum.Failed,
+                                   Status = OsmSharp.Service.Routing.Core.OsmSharpServiceResponseStatusEnum.Failed,
                                    StatusMessage = "Service is not ready!"
                                };
 
@@ -84,7 +85,7 @@ namespace OsmSharp.Service.Routing
             { // there are no hooks!
                 response = new RoutingResponse
                                {
-                                   Status = OsmSharpServiceResponseStatusEnum.Failed,
+                                   Status = OsmSharp.Service.Routing.Core.OsmSharpServiceResponseStatusEnum.Failed,
                                    StatusMessage = "No hooks found!"
                                };
 
@@ -143,7 +144,7 @@ namespace OsmSharp.Service.Routing
                 // create the response.
                 response = new RoutingResponse
                                {
-                                   Status = OsmSharpServiceResponseStatusEnum.Failed,
+                                   Status = OsmSharp.Service.Routing.Core.OsmSharpServiceResponseStatusEnum.Failed,
                                    StatusMessage = ex.Message
                                };
             }
@@ -158,7 +159,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoToClosest(
-            RoutingOperation operation, Router router, IEdgeMatcher matcher)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -274,7 +275,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="open">Flag indicating the type of TSP problem, open or not.</param>
         /// <returns></returns>
         private RoutingResponse DoTSP(
-            RoutingOperation operation, Router router, IEdgeMatcher matcher, bool open)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher, bool open)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -406,7 +407,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoRegular(
-            RoutingOperation operation, Router router, IEdgeMatcher matcher)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -477,7 +478,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoManyToMany(
-            RoutingOperation operation, Router router, IEdgeMatcher matcher)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -551,14 +552,14 @@ namespace OsmSharp.Service.Routing
 
             if (!this.IsReady())
             { // return that the service is not ready.
-                response.Status = OsmSharpServiceResponseStatusEnum.Failed;
+                response.Status = OsmSharp.Service.Routing.Core.OsmSharpServiceResponseStatusEnum.Failed;
                 response.StatusMessage = "Service is not ready!";
                 return response;
             }
 
             if (operation.Hooks == null || operation.Hooks.Length == 0)
             { // there are no hooks!
-                response.Status = OsmSharpServiceResponseStatusEnum.Failed;
+                response.Status = OsmSharp.Service.Routing.Core.OsmSharpServiceResponseStatusEnum.Failed;
                 response.StatusMessage = "No hooks found!";
                 return response;
             }

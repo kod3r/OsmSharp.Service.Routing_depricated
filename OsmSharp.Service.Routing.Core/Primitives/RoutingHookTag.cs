@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 
-namespace OsmSharp.Service.Routing.Routing.Primitives
+namespace OsmSharp.Service.Routing.Core.Primitives
 {
     /// <summary>
     /// Represents a string pair, key-value, as a pair of tags for a routing hook.

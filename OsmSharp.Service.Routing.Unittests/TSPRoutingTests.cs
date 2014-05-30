@@ -23,7 +23,7 @@ using OsmSharp.Routing;
 using OsmSharp.Service.Routing;
 using ServiceStack;
 using OsmSharp.Service.Routing.Routing;
-using OsmSharp.Service.Routing.Routing.Primitives;
+using OsmSharp.Service.Routing.Core.Primitives;
 
 namespace OsmSharp.Service.Routing.Unittests
 {
@@ -73,7 +73,7 @@ namespace OsmSharp.Service.Routing.Unittests
                         {
                             Vehicle = Vehicle.Car.UniqueName,
                             Hooks = hooks,
-                            Type = RoutingOperationType.TSP
+                            Type = OsmSharp.Service.Routing.Core.RoutingOperationType.TSP
                         });
         }
     }

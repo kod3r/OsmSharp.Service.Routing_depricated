@@ -16,12 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace OsmSharp.Service.Routing.Routing.Primitives
+namespace OsmSharp.Service.Routing.Core.Primitives
 {
     /// <summary>
-    /// A resolved routing hook; a point route from/to that was resolved to the closest connecting road.
+    /// A routing hook; a point route from/to.
     /// </summary>
-    public class RoutingHookResolved
+    public class RoutingHook
     {
         /// <summary>
         /// The id of the hook.
@@ -39,8 +39,8 @@ namespace OsmSharp.Service.Routing.Routing.Primitives
         public float Longitude { get; set; }
 
         /// <summary>
-        /// The hook was succesfully resolved.
+        /// The routing hook tags.
         /// </summary>
-        public bool Succes { get; set; }
+        public RoutingHookTag[] Tags { get; set; }
     }
 }

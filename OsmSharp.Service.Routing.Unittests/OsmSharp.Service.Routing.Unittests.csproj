@@ -107,6 +107,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OsmSharp.Service.Routing.Core\OsmSharp.Service.Routing.Core.csproj">
+      <Project>{f8e3be5e-e58b-4c7d-95ca-4e4cc8925119}</Project>
+      <Name>OsmSharp.Service.Routing.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OsmSharp.Service.Routing.SelfHost\OsmSharp.Service.Routing.SelfHost.csproj">
       <Project>{fd619428-6381-4427-bf61-fbe5b39cb11d}</Project>
       <Name>OsmSharp.Service.Routing.SelfHost</Name>

@@ -19,7 +19,7 @@
 using System.Linq;
 using OsmSharp.Routing;
 
-namespace OsmSharp.Service.Routing.Routing.Primitives.GeoJSON
+namespace OsmSharp.Service.Routing.Core.Primitives.GeoJSON
 {
     /// <summary>
     /// Represents a GeoJSON feature.

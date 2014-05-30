@@ -16,21 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace OsmSharp.Service.Routing.Routing.Primitives.GeoJSON
+namespace OsmSharp.Service.Routing.Core.Primitives
 {
     /// <summary>
-    /// Represents GeoJSON default route properties.
+    /// A resolved routing hook; a point route from/to that was resolved to the closest connecting road.
     /// </summary>
-    public class Properties
+    public class RoutingHookResolved
     {
         /// <summary>
-        /// The distance in meter.
+        /// The id of the hook.
         /// </summary>
-        public double TotalDistance { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
-        /// The time in seconds.
+        /// The latitude.
         /// </summary>
-        public double TotalTime { get; set; }
+        public float Latitude { get; set; }
+
+        /// <summary>
+        /// The longitude
+        /// </summary>
+        public float Longitude { get; set; }
+
+        /// <summary>
+        /// The hook was succesfully resolved.
+        /// </summary>
+        public bool Succes { get; set; }
     }
 }

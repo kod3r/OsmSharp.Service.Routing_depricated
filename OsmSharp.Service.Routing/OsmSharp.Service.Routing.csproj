@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OsmSharp.Service.Routing</RootNamespace>
     <AssemblyName>OsmSharp.Service.Routing</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -94,23 +94,12 @@
     <Compile Include="AppHost.cs" />
     <Compile Include="IProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponseStatusEnum.cs" />
     <Compile Include="RouterFactory.cs" />
     <Compile Include="RouterFactoryBase.cs" />
-    <Compile Include="Routing\Primitives\GeoJSON\Feature.cs" />
-    <Compile Include="Routing\Primitives\GeoJSON\GeometryType.cs" />
-    <Compile Include="Routing\Primitives\GeoJSON\LineString.cs" />
-    <Compile Include="Routing\Primitives\GeoJSON\Properties.cs" />
-    <Compile Include="Routing\Primitives\GeoJSON\Type.cs" />
-    <Compile Include="Routing\Primitives\RoutingHook.cs" />
-    <Compile Include="Routing\Primitives\RoutingHookResolved.cs" />
-    <Compile Include="Routing\Primitives\RoutingHookTag.cs" />
     <Compile Include="Routing\RoutingOperation.cs" />
     <Compile Include="OperationProcessor.cs" />
-    <Compile Include="Routing\Primitives\RoutingResponse.cs" />
     <Compile Include="Routing\RoutingRestService.cs" />
     <Compile Include="Routing\ResolveOperation.cs" />
-    <Compile Include="Routing\Primitives\ResolveResponse.cs" />
     <Compile Include="Routing\ResolveRestService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +155,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\OsmSharp.Service.Routing.Core\OsmSharp.Service.Routing.Core.csproj">
+      <Project>{f8e3be5e-e58b-4c7d-95ca-4e4cc8925119}</Project>
+      <Name>OsmSharp.Service.Routing.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

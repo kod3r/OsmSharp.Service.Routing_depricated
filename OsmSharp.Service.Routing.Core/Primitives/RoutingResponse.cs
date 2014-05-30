@@ -17,9 +17,9 @@
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
 using OsmSharp.Routing;
-using OsmSharp.Service.Routing.Routing.Primitives.GeoJSON;
+using OsmSharp.Service.Routing.Core.Primitives.GeoJSON;
 
-namespace OsmSharp.Service.Routing.Routing.Primitives
+namespace OsmSharp.Service.Routing.Core.Primitives
 {
     /// <summary>
     /// A generic response for a routing request.

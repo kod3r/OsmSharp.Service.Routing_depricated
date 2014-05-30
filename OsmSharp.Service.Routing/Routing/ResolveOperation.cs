@@ -17,7 +17,7 @@
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
 using OsmSharp.Routing;
-using OsmSharp.Service.Routing.Routing.Primitives;
+using OsmSharp.Service.Routing.Core.Primitives;
 using ServiceStack;
 
 namespace OsmSharp.Service.Routing.Routing

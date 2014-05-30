@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace OsmSharp.Service.Routing.Routing.Primitives
+namespace OsmSharp.Service.Routing.Core.Primitives
 {
     /// <summary>
     /// A generic response for a resolve request.
