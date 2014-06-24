@@ -95,7 +95,7 @@ namespace OsmSharp.Service.Routing
             try
             {
                 // create the default edge matcher.
-                IEdgeMatcher matcher = new LevenshteinEdgeMatcher();
+                var matcher = new LevenshteinEdgeMatcher();
 
                 // create the router.
                 var router = _routerFactory.CreateRouter();
@@ -159,7 +159,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoToClosest(
-            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, IPluggedInRouter router, IEdgeMatcher matcher)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -275,7 +275,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="open">Flag indicating the type of TSP problem, open or not.</param>
         /// <returns></returns>
         private RoutingResponse DoTSP(
-            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher, bool open)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, IPluggedInRouter router, IEdgeMatcher matcher, bool open)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -407,7 +407,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoRegular(
-            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, IPluggedInRouter router, IEdgeMatcher matcher)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);
@@ -478,7 +478,7 @@ namespace OsmSharp.Service.Routing
         /// <param name="matcher">Contains an algorithm to match points to the route network.</param>
         /// <returns></returns>
         private RoutingResponse DoManyToMany(
-            OsmSharp.Service.Routing.Routing.RoutingOperation operation, Router router, IEdgeMatcher matcher)
+            OsmSharp.Service.Routing.Routing.RoutingOperation operation, IPluggedInRouter router, IEdgeMatcher matcher)
         {
             // get the vehicle.
             var vehicle = Vehicle.GetByUniqueName(operation.Vehicle);

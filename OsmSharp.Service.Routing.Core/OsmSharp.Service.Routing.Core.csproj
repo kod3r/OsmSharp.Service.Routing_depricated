@@ -35,6 +35,8 @@
     <DocumentationFile>..\Output\OsmSharp.Service.Routing.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IPluggedInRouter.cs" />
+    <Compile Include="PluggedInRouter.cs" />
     <Compile Include="Primitives\GeoJSON\Feature.cs" />
     <Compile Include="Primitives\GeoJSON\GeometryType.cs" />
     <Compile Include="Primitives\GeoJSON\LineString.cs" />

@@ -29,7 +29,7 @@ using OsmSharp.Routing.Graph.Router.Dykstra;
 using OsmSharp.Routing.Osm.Graphs;
 using OsmSharp.Routing.Osm.Interpreter;
 using OsmSharp.Routing.Osm.Streams.Graphs;
-using OsmSharp.Service.Routing;
+using OsmSharp.Service.Routing.Core;
 using System;
 using System.IO;
 
@@ -137,12 +137,13 @@ namespace OsmSharp.Service.Routing.Plugin.Default
         }
 
         /// <summary>
-        /// Returns a new router instance.
+        /// Creates a router.
         /// </summary>
         /// <returns></returns>
-        public override Router CreateRouter()
+        public override IPluggedInRouter CreateRouter()
         {
-            return this._createRouter.Invoke();
+            return new PluggedInRouter(
+                this._createRouter.Invoke());
         }
 
         /// <summary>

@@ -29,6 +29,7 @@ using OsmSharp.Routing.Graph.Router.Dykstra;
 using OsmSharp.Routing.Osm.Graphs;
 using OsmSharp.Routing.Osm.Interpreter;
 using OsmSharp.Routing.Osm.Streams.Graphs;
+using OsmSharp.Service.Routing.Core;
 using System;
 using System.IO;
 
@@ -43,7 +44,7 @@ namespace OsmSharp.Service.Routing
         /// Defines the create router delegate.
         /// </summary>
         /// <returns></returns>
-        private delegate Router CreateRouterDelegate();
+        private delegate IPluggedInRouter CreateRouterDelegate();
 
         /// <summary>
         /// Holds the create router delegate.
@@ -67,8 +68,8 @@ namespace OsmSharp.Service.Routing
 
                 this._createRouter = new CreateRouterDelegate(() =>
                 {
-                    return Router.CreateLiveFrom(data,
-                        new DykstraRoutingLive(), interpreter);
+                    return new PluggedInRouter(Router.CreateLiveFrom(data,
+                        new DykstraRoutingLive(), interpreter));
                 });
             }
             else if (OperationProcessor.Settings.ContainsKey("graph.contracted.flat"))
@@ -80,7 +81,8 @@ namespace OsmSharp.Service.Routing
 
                 this._createRouter = new CreateRouterDelegate(() =>
                 {
-                    return Router.CreateCHFrom(data, new CHRouter(), interpreter);
+                    return new PluggedInRouter(
+                        Router.CreateCHFrom(data, new CHRouter(), interpreter));
                 });
             }
             else if (OperationProcessor.Settings.ContainsKey("graph.contracted.mobile"))
@@ -92,7 +94,8 @@ namespace OsmSharp.Service.Routing
 
                 this._createRouter = new CreateRouterDelegate(() =>
                 {
-                    return Router.CreateCHFrom(data, new CHRouter(), interpreter);
+                    return new PluggedInRouter(
+                        Router.CreateCHFrom(data, new CHRouter(), interpreter));
                 });
             }
             else
@@ -130,7 +133,8 @@ namespace OsmSharp.Service.Routing
 
                 this._createRouter = new CreateRouterDelegate(() =>
                 {
-                    return Router.CreateLiveFrom(data, new DykstraRoutingLive(), interpreter);
+                    return new PluggedInRouter(
+                        Router.CreateLiveFrom(data, new DykstraRoutingLive(), interpreter));
                 });
             }
         }
@@ -139,7 +143,7 @@ namespace OsmSharp.Service.Routing
         /// Returns a new router instance.
         /// </summary>
         /// <returns></returns>
-        public override Router CreateRouter()
+        public override IPluggedInRouter CreateRouter()
         {
             return this._createRouter.Invoke();
         }

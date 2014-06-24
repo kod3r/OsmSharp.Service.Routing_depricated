@@ -65,9 +65,9 @@ namespace OsmSharp.Service.Routing.Routing
         /// <returns></returns>
         private object ProcessRoutingOperation(RoutingOperation request)
         {
-            long beforeTicks = DateTime.Now.Ticks;
-            object result = OperationProcessor.GetInstance().ProcessRoutingOperation(request);
-            long afterTicks = DateTime.Now.Ticks;
+            var beforeTicks = DateTime.Now.Ticks;
+            var result = OperationProcessor.GetInstance().ProcessRoutingOperation(request);
+            var afterTicks = DateTime.Now.Ticks;
 
             OsmSharp.Logging.Log.TraceEvent("RoutingRestService", OsmSharp.Logging.TraceEventType.Information,
                 string.Format("Routing request finished after {0}ms",

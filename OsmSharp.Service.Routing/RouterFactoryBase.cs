@@ -17,10 +17,7 @@
 // along with OsmSharp. If not, see <http://www.gnu.org/licenses/>.
 
 using OsmSharp.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OsmSharp.Service.Routing.Core;
 
 namespace OsmSharp.Service.Routing
 {
@@ -38,7 +35,7 @@ namespace OsmSharp.Service.Routing
         /// <summary>
         /// Holds the create router delegate.
         /// </summary>
-        public abstract Router CreateRouter();
+        public abstract IPluggedInRouter CreateRouter();
 
         /// <summary>
         /// Returns true if this factory is ready to start creating routes.
