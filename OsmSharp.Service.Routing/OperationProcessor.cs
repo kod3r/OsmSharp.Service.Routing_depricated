@@ -428,6 +428,12 @@ namespace OsmSharp.Service.Routing
                                                   new GeoCoordinate(operation.Hooks[idx].Latitude,
                                                                     operation.Hooks[idx].Longitude), matcher,
                                                   tags);
+                next.Tags = new List<KeyValuePair<string, string>>(tags.Count);
+                foreach(var tag in tags)
+                {
+                    next.Tags.Add(new KeyValuePair<string, string>(
+                        tag.Key, tag.Value));
+                }
 
                 // check the routability.
                 if (next != null &&
