@@ -103,25 +103,23 @@
     <Compile Include="Routing\ResolveRestService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OsmSharp, Version=4.2.0.723, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.2.0.723\lib\net45\OsmSharp.dll</HintPath>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr3.Runtime.PCL.3.5.0.2\lib\portable-win+net40+sl40+wp\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Osm, Version=4.2.0.723, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.2.0.723\lib\net45\OsmSharp.Osm.dll</HintPath>
+    <Reference Include="OsmSharp">
+      <HintPath>..\packages\OsmSharp.4.3.0.935-beta\lib\net40\OsmSharp.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.Routing, Version=4.2.0.723, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.2.0.723\lib\net45\OsmSharp.Routing.dll</HintPath>
+    <Reference Include="OsmSharp.Osm">
+      <HintPath>..\packages\OsmSharp.4.3.0.935-beta\lib\net40\OsmSharp.Osm.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.UI, Version=4.2.0.723, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.2.0.723\lib\net45\OsmSharp.UI.dll</HintPath>
+    <Reference Include="OsmSharp.Routing">
+      <HintPath>..\packages\OsmSharp.4.3.0.935-beta\lib\net40\OsmSharp.Routing.dll</HintPath>
     </Reference>
-    <Reference Include="OsmSharp.WinForms.UI, Version=4.2.0.723, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\OsmSharp.4.2.0.723\lib\net45\OsmSharp.WinForms.UI.dll</HintPath>
+    <Reference Include="OsmSharp.UI">
+      <HintPath>..\packages\OsmSharp.4.3.0.935-beta\lib\net40\OsmSharp.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="OsmSharp.WinForms.UI">
+      <HintPath>..\packages\OsmSharp.4.3.0.935-beta\lib\net40\OsmSharp.WinForms.UI.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

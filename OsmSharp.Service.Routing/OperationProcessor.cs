@@ -241,14 +241,14 @@ namespace OsmSharp.Service.Routing
             if (route != null)
             {
                 // add the routerpoint tags.
-                string idxClosestString = route.Entries[route.Entries.Length - 1].Points[0].Tags[1].Value;
+                string idxClosestString = route.Segments[route.Segments.Length - 1].Points[0].Tags[1].Value;
                 int idxClosest = int.Parse(idxClosestString);
 
                 // get the closest point.
                 RoutingHook pointClosest = operation.Hooks[idxClosest];
 
                 // get the routerpoint.
-                RoutePoint routePoint = route.Entries[route.Entries.Length - 1].Points[0];
+                RoutePoint routePoint = route.Segments[route.Segments.Length - 1].Points[0];
 
                 // add the closest point tags.
                 routePoint.Latitude = pointClosest.Latitude;
@@ -353,7 +353,7 @@ namespace OsmSharp.Service.Routing
 
                 // add the routing hook tags.
                 List<RoutingHook> fromHooks = hooksPerRouterPoints[routerPoints[edge.From]];
-                edgeRoute.Entries[0].Points = new RoutePoint[fromHooks.Count];
+                edgeRoute.Segments[0].Points = new RoutePoint[fromHooks.Count];
                 for (int hookIdx = 0; hookIdx < fromHooks.Count; hookIdx++)
                 {
                     var hookPoint = new RoutePoint
@@ -363,10 +363,10 @@ namespace OsmSharp.Service.Routing
                                             Tags = fromHooks[hookIdx].Tags.ConvertToList().ConvertFrom()
                                         };
 
-                    edgeRoute.Entries[0].Points[hookIdx] = hookPoint;
+                    edgeRoute.Segments[0].Points[hookIdx] = hookPoint;
                 }
                 List<RoutingHook> toHooks = hooksPerRouterPoints[routerPoints[edge.To]];
-                edgeRoute.Entries[edgeRoute.Entries.Length - 1].Points = new RoutePoint[toHooks.Count];
+                edgeRoute.Segments[edgeRoute.Segments.Length - 1].Points = new RoutePoint[toHooks.Count];
                 for (int hookIdx = 0; hookIdx < toHooks.Count; hookIdx++)
                 {
                     var hookPoint = new RoutePoint
@@ -376,7 +376,7 @@ namespace OsmSharp.Service.Routing
                                             Tags = toHooks[hookIdx].Tags.ConvertToList().ConvertFrom()
                                         };
 
-                    edgeRoute.Entries[edgeRoute.Entries.Length - 1].Points[hookIdx] = hookPoint;
+                    edgeRoute.Segments[edgeRoute.Segments.Length - 1].Points[hookIdx] = hookPoint;
                 }
 
                 // concatenate routes.
